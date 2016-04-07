@@ -9,8 +9,11 @@ SERVERS = ['euro217.vpnbook.com', 'euro214.vpnbook.com',
            'de233.vpnbook.com']
 
 def handle(msg):
-    text = msg['text']
-    chat_id = msg['chat']['id']
+    try:
+    	text = msg['text']
+    	chat_id = msg['chat']['id']
+    except:
+        return
 
     if text == '/start':
         show_keyboard = {'keyboard': [['/server', '/password']]}
