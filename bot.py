@@ -1,7 +1,7 @@
 import sys
 import time
 import telepot
-import urllib
+import urllib.request
 
 
 SERVERS = ['euro217.vpnbook.com', 'euro214.vpnbook.com',
@@ -38,10 +38,10 @@ class VPNBoot(telepot.Bot):
                 bot.sendMessage(chat_id, server)
 
         elif text == '/password':
-            f = urllib.urlopen("http://www.vpnbook.com")
-            b = f.read()
-            f.close()
-            pwd = self.find_between(b, "Password: ", "</strong>")
+            with urllib.request.urlopen("http://www.vpnbook.com") as url:
+            	html = str(url.read())
+            
+            pwd = self.find_between(html, "Password: ", "</strong>")
             bot.sendMessage(chat_id, pwd)
 
     def find_between(self, s, first, last):
@@ -60,7 +60,7 @@ TOKEN = sys.argv[1]
 bot = VPNBoot(TOKEN)
 bot.message_loop()
 
-print 'Listening ...'
+print('Listening ...')
 
 # Keep the program running.
 while 1:
